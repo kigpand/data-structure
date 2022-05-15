@@ -2,6 +2,11 @@ import Comparator from '../Comparator';
 import LinkedListNode from './LinkedListNode';
 
 export default class LinkedList {
+
+    /**
+     *  head : 첫번째 노드
+     *  tail : 마지막 노드 
+     */
     constructor(comparatorFunction) {
         this.head = null;
         this.tail = null;
@@ -9,6 +14,12 @@ export default class LinkedList {
         this.compare = new Comparator(comparatorFunction);
     }
 
+    /**
+     * @description 연결리스트 head쪽에 값 추가.
+     * 
+     * @param {*} value 연결리스트에 추가할 값 
+     * @returns 
+     */
     prepand(value) {
         const newNode = new LinkedListNode(value, this.head);
         this.head = newNode;
@@ -20,6 +31,12 @@ export default class LinkedList {
         return this;
     }
 
+    /**
+     * @description 연결리스트 tail쪽에 값 추가
+     * 
+     * @param {*} value 연결리스트에 추가할 값 
+     * @returns 
+     */
     append(value) {
         const newNode = new LinkedListNode(value);
 
@@ -36,6 +53,14 @@ export default class LinkedList {
         return this;
     }
 
+    /**
+     * @description 값을 추가할 index를 찾아서 해당 index에 값 추가.
+     *              index가 0일 경우에는 head쪽에, 존재하지 않을 경우는 리스트가 존재하지 않는 경우이므로 새로운 리스트 추가.
+     * 
+     * @param {*} value 연결리스트에 추가할 값
+     * @param {*} rawIndex 값을 추가할 인덱스
+     * @returns 
+     */
     insert(value, rawIndex) {
         const index = rawIndex < 0 ? 0 : rawIndex;
         if(index === 0) {
@@ -61,6 +86,12 @@ export default class LinkedList {
         return this;
     }
 
+    /**
+     * @description 
+     * 
+     * @param {*} value 삭제할 노드 값
+     * @returns 삭제된 노드값
+     */
     delete(value) {
         if (!this.head) {
             return null;
@@ -93,6 +124,12 @@ export default class LinkedList {
         return deleteNode;
     }
 
+    /**
+     * @description value에 해당하는 노드 찾는 함수. callback 함수를 받아와서 처리할 수도 있다.
+     * 
+     * @param {*} param
+     * @returns 
+     */
     find({ value = undefined, callback  = undefined}) {
         if (!this.head) {
             return null;
@@ -105,7 +142,7 @@ export default class LinkedList {
                 return currentNode;
             }
 
-            if (value !== undefined ** this.compare.equal(currentNode.value, value)) {
+            if (value !== undefined && this.compare.equal(currentNode.value, value)) {
                 return currentNode;
             }
 
@@ -115,6 +152,10 @@ export default class LinkedList {
         return null;
     }
 
+    /**
+     * @description 마지막 노드 삭제 
+     * @returns 
+     */
     deleteTail() {
         const deletedTail = this.tail;
 
@@ -139,6 +180,10 @@ export default class LinkedList {
         return deletedTail;
     }
 
+    /**
+     * @description 첫번째 노드 삭제
+     * @returns 
+     */
     deleteHead() {
         if (!this.head) {
             return null;
@@ -156,12 +201,22 @@ export default class LinkedList {
         return deletedHead;
     }
 
+    /**
+     * @description 배열을 받아와서 연결리스트로 변환한다.
+     * 
+     * @param {*} values 연결리스트로 변환할 배열
+     * @returns 
+     */
     fromArray(values) {
         values.forEach((value) => this.append(value));
 
         return this;
     }
 
+    /**
+     * @description 현재의 연결리스트의 노드들을 배열로 변환한다.
+     * @returns 
+     */
     toArray() {
         const nodes = [];
 
@@ -174,10 +229,20 @@ export default class LinkedList {
         return nodes;
     }
 
+    /**
+     * @description 연결리스트를 배열로 변환한 후 string형으로 변환.
+     * 
+     * @param {*} callback 문자열로 변환하면서 실행할 callback 함수
+     * @returns 
+     */
     toString(callback) {
         return this.toArray().map((node) => node.toString(callback)).toString();
     }
 
+    /**
+     * @description 노드의 순서를 거꾸로 변환.
+     * @returns 
+     */
     reverse() {
         let currNode = this.head;
         let prevNode = null;
